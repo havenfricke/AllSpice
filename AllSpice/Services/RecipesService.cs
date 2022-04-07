@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using AllSpice.Models;
 using AllSpice.Repositories;
 
 namespace AllSpice.Controllers
@@ -10,6 +13,21 @@ namespace AllSpice.Controllers
     public RecipesService(RecipesRepository recipesRepository)
     {
       _recipesRepository = recipesRepository;
+    }
+
+    internal List<Recipe> GetAll()
+    {
+      throw new NotImplementedException();
+    }
+
+    internal Recipe GetById(int id)
+    {
+      throw new NotImplementedException();
+    }
+
+    internal Recipe Create(Recipe recipeData)
+    {
+      throw new NotImplementedException();
     }
   }
 }
