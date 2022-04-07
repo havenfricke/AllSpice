@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS recipes(
   id INT NOT NULL AUTO_INCREMENT primary key,
   title TEXT NOT NULL,
   category TEXT NOT NULL,
+  subtitle TEXT NOT NULL,
   creatorId VARCHAR(255) NOT NULL,
   FOREIGN KEY (creatorId) REFERENCES accounts(id),
   picture varchar(255) COMMENT 'Recipe Picture',
