@@ -45,3 +45,13 @@ FROM
   JOIN accounts a
 WHERE
   a.id = r.creatorId;
+INSERT INTO
+  recipes (title, category, subtitle, creatorId, picture)
+VALUES
+  (
+    'sufle or something',
+    'dinner',
+    'packs a punch',
+    '60d3560eceb6bbdfae388576',
+    'https://thiscatdoesnotexist.com'
+  );
