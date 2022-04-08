@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using AllSpice.Models;
 using AllSpice.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +15,20 @@ namespace AllSpice.Controllers
     public IngredientsController(IngredientsService ingredientsService)
     {
       _ingredientsService = ingredientsService;
+    }
+
+    [HttpGet]
+
+    public ActionResult<List<Ingredient>> GetAll()
+    {
+      try
+      {
+
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
     }
   }
 }
