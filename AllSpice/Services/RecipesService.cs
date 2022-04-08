@@ -17,17 +17,27 @@ namespace AllSpice.Controllers
 
     internal List<Recipe> GetAll()
     {
-      throw new NotImplementedException();
+      return _recipesRepository.GetAll();
     }
 
     internal Recipe GetById(int id)
     {
-      throw new NotImplementedException();
+      return _recipesRepository.GetById(id);
     }
 
     internal Recipe Create(Recipe recipeData)
     {
-      throw new NotImplementedException();
+      return _recipesRepository.Create(recipeData);
+    }
+
+    internal string Remove(int id, Account user)
+    {
+      Recipe recipe = _recipesRepository.GetById(id);
+      if (recipe.CreatorId != user.Id)
+      {
+        throw new Exception("You are not allowed to delete this");
+      }
+      return _recipesRepository.Remove(id);
     }
   }
 }

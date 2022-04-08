@@ -60,7 +60,23 @@ namespace AllSpice.Controllers
         Account UserInfo = await HttpContext.GetUserInfoAsync<Account>();
         recipeData.CreatorId = UserInfo.Id;
         Recipe recipe = _recipesService.Create(recipeData);
+        recipe.Creator = UserInfo;
         return Created($"api/recipes/{recipe.Id}", recipe);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpDelete("{id}")]
+    [Authorize]
+    public async Task<ActionResult<string>> Remove(int id)
+    {
+      try
+      {
+        Account UserInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_recipesService.Remove(id, UserInfo));
       }
       catch (System.Exception e)
       {

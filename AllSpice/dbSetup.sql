@@ -37,3 +37,11 @@ CREATE TABLE IF NOT EXISTS favorites(
   recipeId INT NOT NULL,
   FOREIGN KEY (recipeId) REFERENCES recipes(id)
 ) default charset utf8;
+SELECT
+  r.*,
+  a.*
+FROM
+  recipes r
+  JOIN accounts a
+WHERE
+  a.id = r.creatorId;
