@@ -1,3 +1,4 @@
+using System;
 using AllSpice.Repositories;
 
 namespace AllSpice.Services
@@ -11,5 +12,9 @@ namespace AllSpice.Services
       _ingredientsRepository = ingredientsRepository;
     }
 
+    internal bool GetAll()
+    {
+      throw new NotImplementedException();
+    }
   }
 }

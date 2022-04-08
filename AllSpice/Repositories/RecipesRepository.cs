@@ -65,7 +65,7 @@ namespace AllSpice.Repositories
     internal string Remove(int id)
     {
       string sql = @"
-      DELETE FROM games WHERE id = @id LIMIT 1;
+      DELETE FROM recipes WHERE id = @id LIMIT 1;
       ";
       int rowsAffected = _db.Execute(sql, new { id });
       if (rowsAffected > 0)

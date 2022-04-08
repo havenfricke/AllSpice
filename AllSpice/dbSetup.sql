@@ -12,30 +12,31 @@ CREATE TABLE IF NOT EXISTS recipes(
   category TEXT NOT NULL,
   subtitle VARCHAR(255) NOT NULL,
   creatorId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (creatorId) REFERENCES accounts(id),
   picture varchar(255) COMMENT 'Recipe Picture',
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
-  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update'
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) default charset utf8;
 CREATE TABLE IF NOT EXISTS ingredients(
   id INT NOT NULL AUTO_INCREMENT primary key,
   name TEXT NOT NULL,
   quantity TEXT NOT NULL,
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8;
 CREATE TABLE IF NOT EXISTS steps(
   id INT NOT NULL AUTO_INCREMENT primary key,
   stepNumber INT NOT NULL,
   body TEXT NOT NULL,
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8;
 CREATE TABLE IF NOT EXISTS favorites(
+  id INT NOT NULL AUTO_INCREMENT primary key,
   accountId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (accountId) REFERENCES accounts(id),
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+  FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8;
 SELECT
   r.*,
@@ -49,17 +50,17 @@ INSERT INTO
   recipes (title, category, subtitle, creatorId, picture)
 VALUES
   (
-    'Double cheddar choco doodoo',
+    'Food',
     'dessert',
     'cheddar chocolate suprise',
-    '60d3560eceb6bbdfae38856',
+    '60d3560eceb6bbdfae388576',
     'https://thiscatdoesnotexist.com'
   );
 INSERT INTO
   accounts (id, email, picture)
 VALUES
   (
-    '60d3560eceb6bbdfae38856',
+    '60d3560eceb6bbdfae388576',
     'bigboi@bingbong.com',
     'https://thiscatdoesnotexist.com'
   );

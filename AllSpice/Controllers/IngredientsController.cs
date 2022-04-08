@@ -15,18 +15,6 @@ namespace AllSpice.Controllers
       _ingredientsService = ingredientsService;
     }
 
-    // [HttpGet]
 
-    // public ActionResult<List<Ingredient>> GetAll()
-    // {
-    //   try
-    //   {
-
-    //   }
-    //   catch (System.Exception e)
-    //   {
-    //     return BadRequest(e.Message);
-    //   }
-    // }
   }
 }
