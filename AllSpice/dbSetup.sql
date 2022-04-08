@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS recipes(
   id INT NOT NULL AUTO_INCREMENT primary key,
   title TEXT NOT NULL,
   category TEXT NOT NULL,
-  subtitle TEXT NOT NULL,
+  subtitle VARCHAR(255) NOT NULL,
   creatorId VARCHAR(255) NOT NULL,
   FOREIGN KEY (creatorId) REFERENCES accounts(id),
   picture varchar(255) COMMENT 'Recipe Picture',
@@ -49,9 +49,17 @@ INSERT INTO
   recipes (title, category, subtitle, creatorId, picture)
 VALUES
   (
-    'sufle or something',
-    'dinner',
-    'packs a punch',
-    '60d3560eceb6bbdfae388576',
+    'Double cheddar choco doodoo',
+    'dessert',
+    'cheddar chocolate suprise',
+    '60d3560eceb6bbdfae38856',
+    'https://thiscatdoesnotexist.com'
+  );
+INSERT INTO
+  accounts (id, email, picture)
+VALUES
+  (
+    '60d3560eceb6bbdfae38856',
+    'bigboi@bingbong.com',
     'https://thiscatdoesnotexist.com'
   );

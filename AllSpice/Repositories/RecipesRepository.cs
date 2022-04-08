@@ -19,7 +19,7 @@ namespace AllSpice.Repositories
     {
       string sql = @"
       SELECT 
-      r.*
+      r.*,
       a.*
       FROM recipes r
       JOIN accounts a WHERE a.id = r.creatorId;
@@ -35,7 +35,7 @@ namespace AllSpice.Repositories
     {
       string sql = @"
       SELECT
-      r.*
+      r.*,
       a.*
       FROM recipes r
       JOIN accounts a ON r.creatorId = a.id
@@ -65,7 +65,7 @@ namespace AllSpice.Repositories
     internal string Remove(int id)
     {
       string sql = @"
-      DELETE FROM games WHERE  id = @id LIMIT 1;
+      DELETE FROM games WHERE id = @id LIMIT 1;
       ";
       int rowsAffected = _db.Execute(sql, new { id });
       if (rowsAffected > 0)
