@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AllSpice.Models;
+using AllSpice.Services;
 using CodeWorks.Auth0Provider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,13 +17,23 @@ namespace AllSpice.Controllers
 
     private readonly RecipesService _recipesService;
 
-    public RecipesController(RecipesService recipesService)
+    private readonly IngredientsService _ingredientsService;
+
+    private readonly StepsService _stepsService;
+
+    private readonly FavoritesService _favoritesService;
+
+    public RecipesController(RecipesService recipesService, IngredientsService ingredientsService, StepsService stepsService, FavoritesService favoritesService)
     {
       _recipesService = recipesService;
+      _ingredientsService = ingredientsService;
+      _stepsService = stepsService;
+      _favoritesService = favoritesService;
     }
 
-    [HttpGet]
 
+
+    [HttpGet]
     public ActionResult<List<Recipe>> GetAll()
     {
       try
@@ -37,7 +48,6 @@ namespace AllSpice.Controllers
     }
 
     [HttpGet("{id}")]
-
     public ActionResult<Recipe> GetById(int id)
     {
       try
@@ -72,6 +82,7 @@ namespace AllSpice.Controllers
     [HttpDelete("{id}")]
     [Authorize]
     public async Task<ActionResult<string>> Remove(int id)
+
     {
       try
       {
@@ -83,5 +94,9 @@ namespace AllSpice.Controllers
         return BadRequest(e.Message);
       }
     }
+
+
+
+
   }
 }
