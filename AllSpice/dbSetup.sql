@@ -33,9 +33,9 @@ CREATE TABLE IF NOT EXISTS steps(
 ) default charset utf8;
 CREATE TABLE IF NOT EXISTS favorites(
   id INT NOT NULL AUTO_INCREMENT primary key,
-  accountId VARCHAR(255) NOT NULL,
+  creatorId VARCHAR(255) NOT NULL,
   recipeId INT NOT NULL,
-  FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
   FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8;
 SELECT
