@@ -47,20 +47,57 @@ FROM
 WHERE
   a.id = r.creatorId;
 INSERT INTO
-  recipes (title, category, subtitle, creatorId, picture)
+  steps (stepNumber, body, recipeId)
 VALUES
   (
-    'Food',
-    'dessert',
-    'cheddar chocolate suprise',
-    '60d3560eceb6bbdfae388576',
-    'https://thiscatdoesnotexist.com'
+    3,
+    "Put it down and walk away",
+    1
   );
+SELECT
+  *
+FROM
+  steps;
 INSERT INTO
-  accounts (id, email, picture)
+  steps (name, quantity, recipeId)
 VALUES
-  (
-    '60d3560eceb6bbdfae388576',
-    'bigboi@bingbong.com',
-    'https://thiscatdoesnotexist.com'
-  );
+  ('Cheddar', 'a million lbs.', '1');
+SELECT
+  i.*,
+  r.*
+FROM
+  ingredients i
+  JOIN recipes r
+WHERE
+  i.recipeId = r.id;
+SELECT
+  i.*,
+  r.*,
+  s.*
+FROM
+  recipes r
+  JOIN ingredients i ON i.recipeId = r.id
+  JOIN steps s ON s.recipeId = r.id
+WHERE
+  i.recipeId = r.id
+  AND s.recipeId = r.id;
+SELECT
+  r.*,
+  s.*
+FROM
+  recipes r
+  JOIN steps s
+WHERE
+  s.recipeId = r.id;
+SELECT
+  *
+FROM
+  recipes;
+SELECT
+  *
+FROM
+  ingredients;
+DELETE FROM
+  ingredients
+WHERE
+  id = 4
