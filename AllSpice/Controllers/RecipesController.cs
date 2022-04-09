@@ -144,7 +144,55 @@ namespace AllSpice.Controllers
       }
     }
 
+    [HttpGet("{recipeId}/steps")]
+    public ActionResult<List<Step>> GetStepsByRecipeId(int recipeId)
+    {
+      try
+      {
+        List<Step> steps = _stepsService.GetStepsByRecipeId(recipeId);
+        return Ok(steps);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
 
 
+    [HttpPost("{recipeId}/steps")]
+    [Authorize]
+
+    public async Task<ActionResult<Step>> CreateStep([FromBody] Step stepData)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        stepData.creatorId = userInfo.Id;
+        Step step = _stepsService.CreateStep(stepData);
+        step.Creator = userInfo;
+        return Created($"api/recipes/{step.RecipeId}/steps/{step.Id}", stepData);
+      }
+      catch (System.Exception e)
+      {
+
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpDelete("{recipeId}/steps/{id}")]
+    [Authorize]
+
+    public async Task<ActionResult<string>> RemoveStep(int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_stepsService.RemoveStep(id, userInfo));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
   }
 }
