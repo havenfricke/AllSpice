@@ -22,14 +22,18 @@ CREATE TABLE IF NOT EXISTS ingredients(
   name TEXT NOT NULL,
   quantity TEXT NOT NULL,
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
+  creatorId VARCHAR(255) NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
 ) default charset utf8;
 CREATE TABLE IF NOT EXISTS steps(
   id INT NOT NULL AUTO_INCREMENT primary key,
   stepNumber INT NOT NULL,
   body TEXT NOT NULL,
   recipeId INT NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
+  creatorId VARCHAR(255) NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
+  FOREIGN KEY (creatorId) REFERENCES accounts(id)
 ) default charset utf8;
 CREATE TABLE IF NOT EXISTS favorites(
   id INT NOT NULL AUTO_INCREMENT primary key,
@@ -47,21 +51,27 @@ FROM
 WHERE
   a.id = r.creatorId;
 INSERT INTO
-  steps (stepNumber, body, recipeId)
+  steps (stepNumber, body, recipeId, creatorId)
 VALUES
   (
     3,
     "Put it down and walk away",
-    1
+    1,
+    "60d3560eceb6bbdfae38856"
   );
 SELECT
   *
 FROM
-  steps;
+  ingredients;
 INSERT INTO
-  steps (name, quantity, recipeId)
+  ingredients (name, quantity, recipeId, creatorId)
 VALUES
-  ('Cheddar', 'a million lbs.', '1');
+  (
+    'Cheddar',
+    'a million lbs.',
+    '1',
+    "60d3560eceb6bbdfae38856"
+  );
 SELECT
   i.*,
   r.*
