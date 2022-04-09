@@ -16,17 +16,25 @@ namespace AllSpice.Services
 
     internal List<Step> GetStepsByRecipeId(int recipeId)
     {
-      throw new NotImplementedException();
+      List<Step> found = _stepsRepository.GetStepsByRecipeId(recipeId);
+
+      return found;
     }
 
     internal Step CreateStep(Step stepData)
     {
-      throw new NotImplementedException();
+      return _stepsRepository.Create(stepData);
     }
 
-    internal object RemoveStep(int id, Account userInfo)
+    internal string RemoveStep(int id, Account userInfo)
     {
-      throw new NotImplementedException();
+      Step step = _stepsRepository.GetStepById(id);
+      if (step.creatorId != userInfo.Id)
+      {
+        throw new Exception("You are not allowed to delete this.");
+      }
+
+      return _stepsRepository.RemoveStep(id);
     }
   }
 }
