@@ -95,7 +95,55 @@ namespace AllSpice.Controllers
       }
     }
 
-    
+    [HttpGet("{recipeId}/ingredients")]
+
+    public ActionResult<List<Ingredient>> GetIngredientsByRecipeId(int recipeId)
+    {
+      try
+      {
+        List<Ingredient> ingredients = _ingredientsService.GetIngredientsByRecipeId(recipeId);
+        return Ok(ingredients);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+
+
+    }
+    [HttpPost("{recipeId}/ingredients")]
+    [Authorize]
+    public async Task<ActionResult<Ingredient>> CreateIngredient([FromBody] Ingredient ingredientData)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        ingredientData.creatorId = userInfo.Id;
+        Ingredient ingredient = _ingredientsService.Create(ingredientData);
+        ingredientData.Creator = userInfo;
+        return Created($"api/recipes/{ingredient.RecipeId}/ingredients/{ingredient.Id}", ingredientData);
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
+    [HttpDelete("{recipeId}/ingredients/{id}")]
+    [Authorize]
+    public async Task<ActionResult<string>> RemoveIngredient(int id)
+    {
+      try
+      {
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        return Ok(_ingredientsService.RemoveIngredient(id, userInfo));
+      }
+      catch (System.Exception e)
+      {
+        return BadRequest(e.Message);
+      }
+    }
+
 
 
   }
