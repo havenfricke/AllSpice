@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using AllSpice.Models;
 using Dapper;
+using static AllSpice.Models.Recipe;
 
 namespace AllSpice.Repositories
 {
@@ -60,6 +61,27 @@ namespace AllSpice.Repositories
       int id = _db.ExecuteScalar<int>(sql, recipeData);
       recipeData.Id = id;
       return recipeData;
+    }
+
+    internal List<RecipeViewModel> GetRecipeByAccountId(string id)
+    {
+      string sql = @"
+      SELECT
+      a.*,
+      f.*,
+      r.*
+      FROM favorites f
+      JOIN recipes r ON f.favoriteId = f.id
+      JOIN accounts a ON r.creatorId = a.id
+      WHERE f.accountId = @id;
+      ";
+      List<RecipeViewModel> recipes = _db.Query<Account, Favorite, RecipeViewModel, RecipeViewModel>(sql, (a, f, r) =>
+      {
+        r.Creator = a;
+        r.favoriteId = f.Id;
+        return r;
+      }, new { id }).ToList<RecipeViewModel>();
+      return recipes;
     }
 
     internal string Remove(int id)

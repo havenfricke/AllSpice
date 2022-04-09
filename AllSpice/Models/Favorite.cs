@@ -2,9 +2,9 @@ namespace AllSpice.Models
 {
   public class Favorite
   {
-
+    public int Id { get; set; }
     //virtuals
-    public Account Account { get; set; }
-    public Recipe Recipe { get; set; }
+    public string accountId { get; set; }
+    public int recipeId { get; set; }
   }
 }

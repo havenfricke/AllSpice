@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using AllSpice.Models;
 using AllSpice.Repositories;
+using static AllSpice.Models.Recipe;
 
 namespace AllSpice.Controllers
 {
@@ -38,6 +39,11 @@ namespace AllSpice.Controllers
         throw new Exception("You are not allowed to delete this");
       }
       return _recipesRepository.Remove(id);
+    }
+
+    internal List<RecipeViewModel> GetRecipesByAccountId(string id)
+    {
+     return _recipesRepository.GetRecipeByAccountId(id);
     }
   }
 }
