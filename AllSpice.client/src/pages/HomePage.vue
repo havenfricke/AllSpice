@@ -1,10 +1,29 @@
 <template>
-  <div class="home flex-grow-1 d-flex flex-column align-items-center justify-content-center">
-    <div class="home-card p-5 bg-white rounded elevation-3">
-      <img src="https://bcw.blob.core.windows.net/public/img/8600856373152463" alt="CodeWorks Logo" class="rounded-circle">
-      <h1 class="my-5 bg-dark text-white p-3 rounded text-center">
-        Vue 3 Starter
-      </h1>
+  <div class="container-fluid bg-primary">
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 p-3 d-flex justify-content-center">
+        <img
+          class="rounded"
+          src="https://niemagazine.com/wp-content/uploads/2014/07/fruits-and-vegetables.jpg "
+          alt=""
+        />
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid bg-primary">
+    <div class="row d-flex justify-content-center">
+      <div class="col-6 p-4 bg-light rounded shadow">
+        <span class="row d-flex justify-content-around align-items-center">
+          <h5 class="col-3 text-center text-success hoverable">Home</h5>
+          <h5 class="col-3 text-center text-success hoverable">My Recipes</h5>
+          <h5 class="col-3 text-center text-success hoverable">Favorite</h5>
+        </span>
+      </div>
+    </div>
+    <div class="row p-4">
+      <div class="col-3 hoverable rounded shadow bg-light">
+        <RecipeCard />
+      </div>
     </div>
   </div>
 </template>
@@ -16,21 +35,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.home{
-  display: grid;
-  height: 80vh;
-  place-content: center;
-  text-align: center;
-  user-select: none;
-  .home-card{
-    width: 50vw;
-    > img{
-      height: 200px;
-      max-width: 200px;
-      width: 100%;
-      object-fit: contain;
-      object-position: center;
-    }
-  }
+.hoverable:hover {
+  transform: scale(1.03);
+  filter: drop-shadow(0px 15px 10px rgba(0, 0, 0, 0.3));
+  transition: 0.2s ease-in-out;
+  cursor: pointer;
+}
+.hoverable:active {
+  transform: scale(0.98);
+  transition: 0.2s ease-in-out;
 }
 </style>
