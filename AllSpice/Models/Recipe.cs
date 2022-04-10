@@ -1,21 +1,18 @@
-namespace AllSpice.Models
+namespace spiceGirls.Models
 {
-  public class Recipe
-  {
-    public int? Id { get; set; }
-    public string Title { get; set; }
-    public string Subtitle { get; set; }
-    public string Category { get; set; }
-    public string Picture { get; set; }
-    public string CreatorId { get; set; }
-
-    //virtuals
-    public Account Creator { get; set; }
-
-    public class RecipeViewModel : Recipe
+    public class Recipe
     {
-      public int? favoriteId { get; set; }
-      public int? creatorId { get; set; }
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string SubTitle { get; set; }
+        public string Category { get; set; }
+        public string CreatorId { get; set; }
+        public string Picture { get; set; }
+        public Account? Creator { get; set; }
     }
-  }
+    public class RecipeFavoriteView : Recipe
+    {
+        public int FavoriteId { get; set; }
+
+    }
 }

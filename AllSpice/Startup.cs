@@ -7,9 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MySqlConnector;
-using AllSpice.Repositories;
-using AllSpice.Services;
-using AllSpice.Controllers;
+using spiceGirls.Repositories;
+using spiceGirls.Services;
 
 namespace AllSpice
 {

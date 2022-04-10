@@ -1,49 +1,45 @@
 using System;
 using System.Collections.Generic;
-using AllSpice.Models;
-using AllSpice.Repositories;
-using static AllSpice.Models.Recipe;
+using spiceGirls.Repositories;
 
-namespace AllSpice.Controllers
+using spiceGirls.Models;
+
+namespace spiceGirls.Services
 {
   public class RecipesService
   {
+    private readonly RecipesRepository _recipeRepo;
 
-    private readonly RecipesRepository _recipesRepository;
-
-    public RecipesService(RecipesRepository recipesRepository)
+    public RecipesService(RecipesRepository recipeRepo)
     {
-      _recipesRepository = recipesRepository;
+      _recipeRepo = recipeRepo;
     }
 
     internal List<Recipe> GetAll()
     {
-      return _recipesRepository.GetAll();
-    }
+      return _recipeRepo.GetAll();
 
-    internal Recipe GetById(int id)
-    {
-      return _recipesRepository.GetById(id);
     }
 
     internal Recipe Create(Recipe recipeData)
     {
-      return _recipesRepository.Create(recipeData);
-    }
+      return _recipeRepo.Create(recipeData);
 
+    }
     internal string Remove(int id, Account user)
     {
-      Recipe recipe = _recipesRepository.GetById(id);
+      Recipe recipe = _recipeRepo.GetById(id);
       if (recipe.CreatorId != user.Id)
       {
-        throw new Exception("You are not allowed to delete this");
+        throw new Exception("you can't do that nice try.");
       }
-      return _recipesRepository.Remove(id);
+      return _recipeRepo.Remove(id);
     }
 
-    internal List<RecipeViewModel> GetRecipesByAccountId(string id)
+    internal List<RecipeFavoriteView> GetFavoritesByAccountId(string id)
     {
-     return _recipesRepository.GetRecipeByAccountId(id);
+      return _recipeRepo.GetRecipesByAccountId(id);
+
     }
   }
 }

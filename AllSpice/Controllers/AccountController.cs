@@ -1,26 +1,25 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using AllSpice.Models;
-using AllSpice.Services;
-using CodeWorks.Auth0Provider;
+using spiceGirls.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static AllSpice.Models.Recipe;
+using System.Collections.Generic;
+using CodeWorks.Auth0Provider;
+using spiceGirls.Services;
 
-namespace AllSpice.Controllers
+namespace spiceGirls.Controllers
 {
   [ApiController]
   [Route("[controller]")]
   public class AccountController : ControllerBase
   {
     private readonly AccountService _accountService;
+    private readonly RecipesService _rs;
 
-    private readonly RecipesService _recipesService;
-    public AccountController(AccountService accountService, RecipesService recipesService)
+    public AccountController(AccountService accountService, RecipesService rs)
     {
       _accountService = accountService;
-      _recipesService = recipesService;
+      _rs = rs;
     }
 
     [HttpGet]
@@ -37,17 +36,15 @@ namespace AllSpice.Controllers
         return BadRequest(e.Message);
       }
     }
-
-    [HttpGet("{recipes}")]
+    [HttpGet("favorites")]
     [Authorize]
-
-    public async Task<ActionResult<List<Recipe>>> GetMyFavorites()
+    public async Task<ActionResult<List<RecipeFavoriteView>>> GetMyFavorites()
     {
       try
       {
-        Account UserInfo = await HttpContext.GetUserInfoAsync<Account>();
-        List<RecipeViewModel> recipes = _recipesService.GetRecipesByAccountId(UserInfo.Id);
-        return Ok(recipes);
+        Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+        List<RecipeFavoriteView> favorites = _rs.GetFavoritesByAccountId(userInfo.Id);
+        return Ok(favorites);
       }
       catch (System.Exception e)
       {
@@ -55,4 +52,6 @@ namespace AllSpice.Controllers
       }
     }
   }
+
+
 }

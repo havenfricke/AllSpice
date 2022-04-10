@@ -6,42 +6,49 @@ CREATE TABLE IF NOT EXISTS accounts(
   email varchar(255) COMMENT 'User Email',
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8 COMMENT '';
-CREATE TABLE IF NOT EXISTS recipes(
-  id INT NOT NULL AUTO_INCREMENT primary key,
-  title TEXT NOT NULL,
-  category TEXT NOT NULL,
-  subtitle VARCHAR(255) NOT NULL,
-  creatorId VARCHAR(255) NOT NULL,
-  picture varchar(255) COMMENT 'Recipe Picture',
+CREATE TABLE IF NOT EXISTS favorites(
+  id INT NOT NULL primary key AUTO_INCREMENT,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
   updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
-  FOREIGN KEY (creatorId) REFERENCES accounts(id)
-) default charset utf8;
-CREATE TABLE IF NOT EXISTS ingredients(
-  id INT NOT NULL AUTO_INCREMENT primary key,
-  name TEXT NOT NULL,
-  quantity TEXT NOT NULL,
+  accountId varchar(255) NOT NULL,
   recipeId INT NOT NULL,
-  creatorId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
-  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE
-) default charset utf8;
-CREATE TABLE IF NOT EXISTS steps(
-  id INT NOT NULL AUTO_INCREMENT primary key,
-  stepNumber INT NOT NULL,
-  body TEXT NOT NULL,
-  recipeId INT NOT NULL,
-  creatorId VARCHAR(255) NOT NULL,
-  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE,
-  FOREIGN KEY (creatorId) REFERENCES accounts(id)
-) default charset utf8;
-CREATE TABLE IF NOT EXISTS favorites(
-  id INT NOT NULL AUTO_INCREMENT primary key,
-  creatorId VARCHAR(255) NOT NULL,
-  recipeId INT NOT NULL,
-  FOREIGN KEY (creatorId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
   FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
-) default charset utf8;
+) default charset utf8 COMMENT '';
+DROP TABLE favorites;
+CREATE TABLE IF NOT EXISTS recipes(
+  id INT NOT NULL primary key AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  creatorId VARCHAR(255) NOT NULL,
+  title varchar(255),
+  subTitle varchar(255),
+  category VARCHAR(255),
+  FOREIGN KEY (creatorId) REFERENCES accounts(id),
+  picture varchar(255)
+) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS ingredients(
+  id INT NOT NULL primary key AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  name varchar(255),
+  quantity varchar(255),
+  recipeId INT NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS steps(
+  id INT NOT NULL primary key AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  stepOrder INT,
+  body varchar(255),
+  recipeId INT NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+) default charset utf8 COMMENT '';
+SELECT
+  *
+FROM
+  recipes;
 SELECT
   r.*,
   a.*
@@ -53,12 +60,7 @@ WHERE
 INSERT INTO
   steps (stepNumber, body, recipeId, creatorId)
 VALUES
-  (
-    3,
-    "Put it down and walk away",
-    1,
-    "60d3560eceb6bbdfae38856"
-  );
+  (3, "Put it down and walk away");
 SELECT
   *
 FROM
@@ -72,6 +74,8 @@ VALUES
     '1',
     "60d3560eceb6bbdfae38856"
   );
+DELETE FROM
+  ingredients;
 SELECT
   i.*,
   r.*

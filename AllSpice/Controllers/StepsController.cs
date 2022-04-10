@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using spiceGirls.Models;
 using spiceGirls.Services;
 
-namespace spiceGirls.Controllers
+namespace AllSpice.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]

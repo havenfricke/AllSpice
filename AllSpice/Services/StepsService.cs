@@ -1,40 +1,59 @@
 using System;
 using System.Collections.Generic;
-using AllSpice.Models;
-using AllSpice.Repositories;
+using spiceGirls.Models;
+using spiceGirls.Repositories;
 
-namespace AllSpice.Services
+namespace spiceGirls.Services
 {
   public class StepsService
   {
-    private readonly StepsRepository _stepsRepository;
+    private readonly StepsRepository _stepsRepo;
+    private readonly RecipesRepository _recipesRepo;
 
-    public StepsService(StepsRepository stepsRepository)
+    public StepsService(StepsRepository stepsRepo, RecipesRepository recipesRepo)
     {
-      _stepsRepository = stepsRepository;
+      _stepsRepo = stepsRepo;
+      _recipesRepo = recipesRepo;
     }
 
-    internal List<Step> GetStepsByRecipeId(int recipeId)
+    internal Step Create(Step stepData)
     {
-      List<Step> found = _stepsRepository.GetStepsByRecipeId(recipeId);
-
-      return found;
+      return _stepsRepo.Create(stepData);
     }
 
-    internal Step CreateStep(Step stepData)
+    internal Step Update(Step stepUpdate, Account userInfo)
     {
-      return _stepsRepository.Create(stepData);
-    }
-
-    internal string RemoveStep(int id, Account userInfo)
-    {
-      Step step = _stepsRepository.GetStepById(id);
-      if (step.creatorId != userInfo.Id)
+      Recipe recipe = _recipesRepo.GetById(stepUpdate.RecipeId);
+      stepUpdate.RecipeId = recipe.Id;
+      if (recipe.CreatorId != userInfo.Id)
       {
-        throw new Exception("You are not allowed to delete this.");
+        throw new System.Exception("This isn't your ingredient");
       }
+      Step original = _stepsRepo.GetById(stepUpdate.Id);
+      original.Body = stepUpdate.Body ?? original.Body;
+      original.StepOrder = stepUpdate.StepOrder;
+      if (original != null)
+      {
 
-      return _stepsRepository.RemoveStep(id);
+        _stepsRepo.Update(original);
+      }
+      return original;
+    }
+
+    internal object Remove(int id, Account userInfo)
+    {
+      Step step = _stepsRepo.GetById(id);
+      Recipe recipe = _recipesRepo.GetById(step.RecipeId);
+      if (recipe.CreatorId != userInfo.Id)
+      {
+        throw new Exception("you can't do that nice try.");
+      }
+      return _stepsRepo.Remove(id);
+    }
+
+    internal List<Step> GetAll(int id)
+    {
+      return _stepsRepo.GetAll(id);
     }
   }
 }

@@ -1,37 +1,66 @@
 using System;
 using System.Collections.Generic;
-using AllSpice.Models;
-using AllSpice.Repositories;
+using spiceGirls.Models;
+using spiceGirls.Repositories;
 
-namespace AllSpice.Services
+
+namespace spiceGirls.Services
 {
   public class IngredientsService
   {
-    private readonly IngredientsRepository _ingredientsRepository;
+    private readonly IngredientsRepository _ingredientsRepo;
+    private readonly RecipesRepository _recipesRepo;
 
-    public IngredientsService(IngredientsRepository ingredientsRepository)
+    public IngredientsService(IngredientsRepository ingredientsRepo, RecipesRepository recipesRepo)
     {
-      _ingredientsRepository = ingredientsRepository;
+      _ingredientsRepo = ingredientsRepo;
+      _recipesRepo = recipesRepo;
     }
 
-    internal bool GetAll()
+    internal Ingredient Create(Ingredient ingredientData, Account userInfo)
     {
-      throw new NotImplementedException();
+      Recipe recipe = _recipesRepo.GetById(ingredientData.RecipeId);
+      ingredientData.RecipeId = recipe.Id;
+      if (recipe.CreatorId != userInfo.Id)
+      {
+        throw new System.Exception("You don't own this recipe");
+      }
+      return _ingredientsRepo.Create(ingredientData);
     }
 
-    internal List<Ingredient> GetIngredientsByRecipeId(int id)
+    internal List<Ingredient> GetAll(int id)
     {
-      throw new NotImplementedException();
+      return _ingredientsRepo.GetAll(id);
     }
 
-    internal Ingredient Create(Ingredient ingredientData)
+    internal Ingredient Update(Ingredient ingredientUpdate, Account userInfo)
     {
-      throw new NotImplementedException();
+      Recipe recipe = _recipesRepo.GetById(ingredientUpdate.RecipeId);
+      ingredientUpdate.RecipeId = recipe.Id;
+      if (recipe.CreatorId != userInfo.Id)
+      {
+        throw new System.Exception("This isn't your ingredient");
+      }
+      Ingredient original = _ingredientsRepo.GetById(ingredientUpdate.Id);
+      original.Name = ingredientUpdate.Name ?? original.Name;
+      original.Quantity = ingredientUpdate.Quantity ?? original.Name;
+      if (original != null)
+      {
+
+        _ingredientsRepo.Update(original);
+      }
+      return original;
     }
 
-    internal object RemoveIngredient(int id, Account userInfo)
+    internal object Remove(int id, Account userInfo)
     {
-      throw new NotImplementedException();
+      Ingredient ingredient = _ingredientsRepo.GetById(id);
+      Recipe recipe = _recipesRepo.GetById(ingredient.RecipeId);
+      if (recipe.CreatorId != userInfo.Id)
+      {
+        throw new Exception("you can't do that nice try.");
+      }
+      return _ingredientsRepo.Remove(id);
     }
   }
 }

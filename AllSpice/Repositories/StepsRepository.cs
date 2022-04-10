@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using AllSpice.Models;
 using Dapper;
+using spiceGirls.Models;
 
-namespace AllSpice.Repositories
+namespace spiceGirls.Repositories
 {
   public class StepsRepository
   {
@@ -16,73 +16,70 @@ namespace AllSpice.Repositories
       _db = db;
     }
 
-    internal List<Step> GetStepsByRecipeId(int recipeId)
-    {
-      string sql = @"
-      SELECT
-      s.*,
-      r.*
-      FROM
-      steps s
-      JOIN
-      recipes r
-      WHERE
-      @recipeId = r.id;
-      ";
-      return _db.Query<Step>(sql, new { recipeId }).ToList<Step>();
-    }
-
     internal Step Create(Step stepData)
     {
       string sql = @"
-      INSERT INTO
-        steps 
-        (
-        stepNumber, 
-        body, 
-        recipeId, 
-        creatorId
-          )
-      VALUES
-      (
-       @stepNumber,
-       @body,
-       @recipeId,
-       @creatorId
-      );";
+            INSERT INTO steps
+            (stepOrder, body, recipeId)
+            VALUES
+            (@StepOrder, @Body, @RecipeId);
+            SELECT LAST_INSERT_ID();
+            ";
       int id = _db.ExecuteScalar<int>(sql, stepData);
       stepData.Id = id;
       return stepData;
     }
 
-    internal Step GetStepById(int id)
+    internal Step GetById(int id)
     {
       string sql = @"
-      SELECT
-      *
-      FROM
-      steps
-      WHERE
-      id = @id;
-      ";
-      return _db.QueryFirstOrDefault<Step>(sql, new { id });
+            SELECT 
+                s.*
+            FROM steps s
+            
+            WHERE s.id = @id;
+            ";
+      return _db.Query<Step>(sql
+     , new { id }).FirstOrDefault();
     }
 
-    internal string RemoveStep(int id)
+    internal void Update(Step original)
     {
       string sql = @"
-      DELETE FROM
-      steps
-      WHERE
-      id = @id
-      LIMIT 1;
-      ";
-      int rowAffected = _db.Execute(sql, new { id });
-      if (rowAffected > 0)
+            UPDATE steps
+            SET
+            body = @Body,
+            stepOrder = @StepOrder
+            
+            WHERE id = @Id;
+            ";
+      _db.Execute(sql, original);
+
+    }
+
+    internal object Remove(int id)
+    {
+      string sql = @"
+            DELETE FROM steps WHERE id = @id LIMIT 1;
+            ";
+      int rowsAffected = _db.Execute(sql, new { id });
+      if (rowsAffected > 0)
       {
-        return "deletey completey";
+        return "delorted";
       }
       throw new Exception("could not delete");
+    }
+
+    internal List<Step> GetAll(int id)
+    {
+      string sql = @"
+            SELECT
+            s.*
+            FROM steps s
+            WHERE s.recipeId = @id;
+            ";
+      List<Step> steps = _db.Query<Step>(sql, new { id }).ToList();
+      return steps;
     }
   }
 }
