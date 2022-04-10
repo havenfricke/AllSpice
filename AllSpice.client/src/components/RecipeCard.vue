@@ -1,20 +1,24 @@
 <template>
-  <div>
+  <div data-bs-target="#instructModal" data-bs-toggle="modal">
     <div class="p-2">
-      <h3 class="text-success">Recipe Title</h3>
-      <h6 class="text-dark">Recipe Subtitle</h6>
+      <h3 class="text-success">{{ recipe.title }}</h3>
+      <h6 class="text-dark">{{ recipe.subTitle }}</h6>
     </div>
-    <img
-      class="img-fluid"
-      src="https://img.freepik.com/free-photo/delicious-grilled-burgers_62847-14.jpg?w=2000"
-      alt=""
-    />
+    <img class="img-fluid" :src="recipe.picture" alt="" />
   </div>
 </template>
 
 <script>
 export default {
-
+  props: {
+    recipe: {
+      type: Object,
+      required: true
+    }
+  },
+  setup() {
+    return {}
+  }
 }
 </script>
 

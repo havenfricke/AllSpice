@@ -3,7 +3,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-12 p-3 d-flex justify-content-center">
         <img
-          class="rounded"
+          class="rounded img-fluid"
           src="https://niemagazine.com/wp-content/uploads/2014/07/fruits-and-vegetables.jpg "
           alt=""
         />
@@ -21,16 +21,40 @@
       </div>
     </div>
     <div class="row p-4">
-      <div class="col-3 hoverable rounded shadow bg-light">
-        <RecipeCard />
+      <div
+        v-for="r in recipes"
+        :key="r.id"
+        class="col-3 mx-2 hoverable rounded shadow bg-light"
+      >
+        <RecipeCard :recipe="r" />
       </div>
+      <Modal id="instructModal">
+        <template #title> </template>
+        <template #body> </template>
+      </Modal>
     </div>
   </div>
 </template>
 
 <script>
+import { computed, watchEffect } from "@vue/runtime-core"
+import { logger } from "../utils/Logger"
+import { recipesService } from "../services/RecipesService"
+import { AppState } from "../AppState"
 export default {
-  name: 'Home'
+  name: 'Home',
+  setup() {
+    watchEffect(async () => {
+      try {
+        await recipesService.getAllRecipes()
+      } catch (error) {
+        logger.error(error)
+      }
+    })
+    return {
+      recipes: computed(() => AppState.recipes)
+    }
+  }
 }
 </script>
 
