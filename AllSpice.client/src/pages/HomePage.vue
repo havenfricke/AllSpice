@@ -29,14 +29,6 @@
         <RecipeCard :recipe="r" />
       </div>
     </div>
-    <Modal id="instructModal">
-      <template #title>
-        <div v-for="r in recipes" :key="r.id"><ModalTitle :recipe="r" /></div>
-      </template>
-      <template #body>
-        <div v-for="r in recipes" :key="r.id"><ModalBody :recipe="r" /></div>
-      </template>
-    </Modal>
   </div>
 </template>
 
