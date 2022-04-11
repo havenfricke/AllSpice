@@ -1,8 +1,8 @@
 using System.Data;
+using AllSpice.Models;
 using Dapper;
-using spiceGirls.Models;
 
-namespace spiceGirls.Repositories
+namespace AllSpice.Repositories
 {
   public class AccountsRepository
   {

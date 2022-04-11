@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using AllSpice.Models;
 using Dapper;
-using spiceGirls.Models;
 
-namespace spiceGirls.Repositories
+namespace AllSpice.Repositories
 {
   public class IngredientsRepository
   {

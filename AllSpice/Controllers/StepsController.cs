@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
+using AllSpice.Services;
 using CodeWorks.Auth0Provider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using spiceGirls.Models;
-using spiceGirls.Services;
+using AllSpice.Models;
 
-namespace spiceGirls.Controllers
+namespace AllSpice.Controllers
 {
   [ApiController]
   [Route("api/[controller]")]

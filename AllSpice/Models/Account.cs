@@ -1,4 +1,4 @@
-namespace spiceGirls.Models
+namespace AllSpice.Models
 {
   public class Account
   {

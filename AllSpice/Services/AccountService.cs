@@ -1,7 +1,7 @@
-using spiceGirls.Models;
-using spiceGirls.Repositories;
+using AllSpice.Repositories;
+using AllSpice.Models;
 
-namespace spiceGirls.Services
+namespace AllSpice.Services
 {
   public class AccountService
   {

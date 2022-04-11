@@ -1,8 +1,8 @@
 using System;
-using spiceGirls.Models;
-using spiceGirls.Repositories;
+using AllSpice.Models;
+using AllSpice.Repositories;
 
-namespace spiceGirls.Services
+namespace AllSpice.Services
 {
   public class FavoritesService
   {

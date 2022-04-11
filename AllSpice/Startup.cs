@@ -1,4 +1,6 @@
 using System.Data;
+using AllSpice.Repositories;
+using AllSpice.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,8 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MySqlConnector;
-using spiceGirls.Repositories;
-using spiceGirls.Services;
 
 namespace AllSpice
 {
