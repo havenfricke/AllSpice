@@ -14,12 +14,7 @@
     <div class="row d-flex justify-content-center">
       <div class="col-6 p-4 bg-light rounded shadow">
         <span class="row d-flex justify-content-around align-items-center">
-          <h5
-            @click="getAllRecipes"
-            class="col-3 text-center text-success hoverable"
-          >
-            Home
-          </h5>
+          <h5 class="col-3 text-center text-success hoverable">Home</h5>
           <h5 class="col-3 text-center text-success hoverable">My Recipes</h5>
           <h5 class="col-3 text-center text-success hoverable">Favorite</h5>
         </span>
@@ -34,6 +29,14 @@
         <RecipeCard :recipe="r" />
       </div>
     </div>
+    <Modal id="instructModal">
+      <template #title>
+        <div v-for="r in recipes" :key="r.id"><ModalTitle :recipe="r" /></div>
+      </template>
+      <template #body>
+        <div v-for="r in recipes" :key="r.id"><ModalBody :recipe="r" /></div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -51,15 +54,8 @@ export default {
       } catch (error) {
         logger.error(error)
       }
-    });
+    })
     return {
-      async getAllRecipes() {
-        try {
-          await recipesService.getAllRecipes()
-        } catch (error) {
-          logger.error(error)
-        }
-      },
       recipes: computed(() => AppState.recipes),
     }
   }
