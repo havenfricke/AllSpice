@@ -1,5 +1,5 @@
 <template>
-  <div data-bs-target="#instructModal" data-bs-toggle="modal">
+  <div @click="goTo('Recipe')">
     <div class="p-2">
       <h3 class="text-success">{{ recipe.title }}</h3>
       <h6 class="text-dark">{{ recipe.subTitle }}</h6>
@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
 export default {
   props: {
     recipe: {
@@ -16,8 +17,16 @@ export default {
       required: true
     }
   },
-  setup() {
-    return {}
+  setup(props) {
+    const router = useRouter();
+    return {
+      goTo(page) {
+        router.push({
+          name: page,
+          params: { id: props.recipe.id }
+        });
+      }
+    }
   }
 }
 </script>

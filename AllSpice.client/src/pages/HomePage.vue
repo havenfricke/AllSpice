@@ -28,10 +28,6 @@
       >
         <RecipeCard :recipe="r" />
       </div>
-      <Modal id="instructModal">
-        <template #title> </template>
-        <template #body> </template>
-      </Modal>
     </div>
   </div>
 </template>
@@ -52,7 +48,7 @@ export default {
       }
     })
     return {
-      recipes: computed(() => AppState.recipes)
+      recipes: computed(() => AppState.recipes),
     }
   }
 }
